@@ -1,0 +1,40 @@
+{
+  "name": "timlextension",
+  "displayName": "timlExtension",
+  "description": "Syntax Highlighting and Intellisense for the Tim Templating Engine",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.87.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "timl",
+        "aliases": [
+          "Tim",
+          "timl"
+        ],
+        "extensions": [
+          "timl"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "timl",
+        "scopeName": "source.timl",
+        "path": "./syntaxes/timl.tmLanguage.json",
+        "embeddedLanguages": {
+          "meta.embedded.block.js": "javascript",
+          "meta.embedded.block.css": "css",
+          "meta.embedded.block.json": "json",
+          "meta.embedded.block.yaml": "yaml"
+        }
+      }
+    ]
+  }
+}
