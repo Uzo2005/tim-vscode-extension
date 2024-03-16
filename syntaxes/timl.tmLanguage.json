@@ -3,17 +3,22 @@
   "name": "Tim",
   "patterns": [
     {
+      "include": "#comment_literal"
+    },
+    {
       "include": "#keywords"
     },
     {
-      "include": "#embedded_languages"
-    },
-    {
-      "include": "#comment_literal"
+      "include": "#timl_global_and_local_variables"
     },
     {
       "include": "#all_data_types"
     },
+
+    {
+      "include": "#embedded_languages"
+    },
+    { "include": "#attribute_keyValuePair" },
     {
       "include": "#html_element"
     }
@@ -26,7 +31,11 @@
           "comment": "Keywords that affect program control flow.",
           "name": "keyword.control.timl",
           "match": "\\b(if|else|elif|while|for)\\b"
-        },
+        }
+      ]
+    },
+    "timl_global_and_local_variables": {
+      "patterns": [
         {
           "comment": "Keyword indicating a global variable",
           "name": "keyword.other.$.global.timl",
@@ -50,19 +59,6 @@
           }
         }
       ]
-    },
-    "attribute_keyValuePair": {
-      "match": "\\s*([a-zA-Z0-9-]+)\\s*(=\\s*(['\"][a-zA-Z0-9-#\\s\\n\\.]+['\"]))?",
-      "captures": {
-        "1": { "name": "entity.other.attribute-name.key.timl" },
-        "3": {
-          "name": "entity.other.attribute-name.value.timl",
-          "patterns": [
-            { "include": "#string_quoted_single" },
-            { "include": "#string_quoted_double" }
-          ]
-        }
-      }
     },
     "string_quoted_single": {
       "comment": "Single quoted string",
@@ -94,6 +90,26 @@
         "0": {
           "name": "punctuation.definition.string.end.timl"
         }
+      },
+      "patterns": [
+        {
+          "match": "\\s\\S"
+        }
+      ]
+    },
+    "attribute_keyValuePair": {
+      "match": "\\s*([a-zA-Z0-9-_:]+)\\s*=\\s*(.*)",
+      "captures": {
+        "1": { "name": "entity.other.attribute-name.key.timl" },
+        "2": {
+          "name": "entity.other.attribute-name.value.timl",
+          "patterns": [
+            { "include": "#string_quoted_single" },
+            { "include": "#string_quoted_double" },
+            { "include": "#timl_global_and_local_variables" },
+            { "include": "#variable_literal" }
+          ]
+        }
       }
     },
     "javascript_block": {
@@ -124,7 +140,25 @@
       "endCaptures": {
         "1": { "name": "keyword.other.@.timl" },
         "2": { "name": "support.type.client.end.timl" }
-      }
+      },
+      "patterns": [
+        {
+          "include": "#comment_literal"
+        },
+        {
+          "include": "#keywords"
+        },
+        {
+          "include": "#timl_global_and_local_variables"
+        },
+        {
+          "include": "#all_data_types"
+        },
+        { "include": "#attribute_keyValuePair" },
+        {
+          "include": "#html_element"
+        }
+      ]
     },
     "json_block": {
       "comment": "This highlights embedded Json blocks",
@@ -230,7 +264,7 @@
     },
     "variable_literal": {
       "comment": "Every variable accessed by `$` prefix",
-      "name": "variable.other.timl",
+      "name": "storage.type.variable",
       "match": "\\$[a-zA-z0-9\\.]+"
     },
     "all_data_types": {
@@ -244,17 +278,29 @@
         { "include": "#variable_literal" }
       ]
     },
+    "single_html_tag_classNames_first": {
+      "comment": "A valid html tag on a line",
+      "match": "(?<=^|\\s)([a-z0-6]+)((?:\\.[a-zA-Z0-9-]+)*)(#[a-zA-Z0-9-]+)?:?",
+      "captures": {
+        "1": { "name": "entity.name.tag.html.timl" },
+        "2": { "name": "meta.attribute.class.html.timl" },
+        "3": { "name": "meta.attribute.id.html.timl" }
+      }
+    },
+    "single_html_tag_id_first": {
+      "comment": "A valid html tag on a line",
+      "match": "(?<=^|\\s)([a-z0-6]+)(#[a-zA-Z0-9-]+)((?:\\.[a-zA-Z0-9-]+)*):?",
+      "captures": {
+        "1": { "name": "entity.name.tag.html.timl" },
+        "2": { "name": "meta.attribute.class.html.timl" },
+        "3": { "name": "meta.attribute.id.html.timl" }
+      }
+    },
     "html_element": {
       "name": "entity.name.tag.timl",
       "patterns": [
-        {
-          "match": "^[a-zA-Z0-9]+$",
-          "name":"entity.name.tag.timl"
-        },
-        {
-          "match": "^\\s*[a-zA-Z0-9]+$",
-          "name": "entity.name.tag.timl"
-        }
+        { "include": "#single_html_tag_classNames_first" },
+        { "include": "#single_html_tag_id_first" }
       ]
     }
   },
