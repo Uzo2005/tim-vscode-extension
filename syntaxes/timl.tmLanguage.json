@@ -90,12 +90,27 @@
         "0": {
           "name": "punctuation.definition.string.end.timl"
         }
-      },
-      "patterns": [
+      },"patterns": [
         {
-          "match": "\\s\\S"
+          "match": "[\\s\\S]*"
         }
       ]
+    },
+    "string_quoted_triple": {
+      "begin": "\"\"\"",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.begin.timl"
+        }
+      },
+      "comment": "Raw Triple Quoted String",
+      "end": "\"\"\"",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.definition.string.end.timl"
+        }
+      },
+      "name": "string.quoted.triple.raw.timl"
     },
     "attribute_keyValuePair": {
       "match": "\\s*([a-zA-Z0-9-_:]+)\\s*=\\s*(.*)",
@@ -104,14 +119,14 @@
         "2": {
           "name": "entity.other.attribute-name.value.timl",
           "patterns": [
-            { "include": "#string_quoted_single" },
-            { "include": "#string_quoted_double" },
+            { "include": "#string_literal" },
             { "include": "#timl_global_and_local_variables" },
             { "include": "#variable_literal" }
           ]
         }
       }
     },
+
     "javascript_block": {
       "comment": "This highlights embedded Javascript",
       "name": "meta.embedded.block.js",
@@ -229,6 +244,9 @@
         },
         {
           "include": "#string_quoted_double"
+        },
+        {
+          "include": "#string_quoted_triple"
         }
       ]
     },
