@@ -2,3 +2,4 @@ node_modules
 *.vsix
 PLAN.md
 vsc-extension-quickstart.md
+.env
