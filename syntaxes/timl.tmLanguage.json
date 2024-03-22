@@ -1,38 +1,313 @@
 {
   "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
   "name": "Tim",
+  "scopeName": "source.timl",
+  "fileTypes": ["timl"],
   "patterns": [
     {
-      "include": "#comment_literal"
+      "include": "#embedded_languages"
     },
     {
       "include": "#keywords"
     },
     {
+      "include": "#operators"
+    },
+
+    {
+      "include": "#string_literal"
+    },
+    {
+      "include": "#float_literal"
+    },
+    {
+      "include": "#integer_literal"
+    },
+    {
+      "include": "#boolean_literal"
+    },
+    {
+      "include": "#comment_literal"
+    },
+    {
       "include": "#timl_global_and_local_variables"
     },
     {
-      "include": "#all_data_types"
+      "include": "#variable_literal"
     },
-
-    {
-      "include": "#embedded_languages"
-    },
-    { "include": "#attribute_keyValuePair" },
     {
       "include": "#html_element"
+    },
+    {
+      "include": "#attribute_keyValuePair"
+    },
+    {
+      "match": "[a-zA-Z]",
+      "name": "entity.other.attribute-name.timl"
     }
   ],
-
   "repository": {
+    "control_keyword": {
+      "match": "\\b(if|elif|else|for|in|case|of|while|var|const|and|or|echo|return|void)\\b",
+      "name": "keyword.control.timl"
+    },
+    "typeof_literal_keyword": {
+      "match": "\\.(type|typeof)",
+      "name": "keyword.operator.timl"
+    },
+    "other_keywords": {
+      "match": "^\\s*(@client|@js|@yaml|@css|@end|@view|@include|@import|@placeholder)",
+      "name": "keyword.control.less"
+    },
     "keywords": {
       "patterns": [
         {
-          "comment": "Keywords that affect program control flow.",
-          "name": "keyword.control.timl",
-          "match": "\\b(if|else|elif|while|for)\\b"
+          "include": "#control_keyword"
+        },
+        {
+          "include": "#typeof_literal_keyword"
+        },
+        {
+          "include": "#other_keywords"
         }
       ]
+    },
+    "relational_operators": {
+      "match": "\\b<|<=|>|>=|==|!=\\b",
+      "name": "keyword.operator.timl"
+    },
+    "logical_operators": {
+      "match": "&&|\\|\\||:|\\?",
+      "name": "keyword.operator.timl strong.timl"
+    },
+    "math_operators": {
+      "match": "\\s+\\+|-|\\*|/\\s+",
+      "name": "keyword.operator.timl"
+    },
+    "operators": {
+      "patterns": [
+        {
+          "include": "#relational_operators"
+        },
+        {
+          "include": "#logical_operators"
+        },
+        {
+          "include": "#math_operators"
+        }
+      ]
+    },
+    "char_escapes": {
+      "patterns": [
+        {
+          "match": "\\\\[cC]|\\\\[rR]",
+          "name": "constant.character.escape.carriagereturn.timl"
+        },
+        {
+          "match": "\\\\[lL]|\\\\[nN]",
+          "name": "constant.character.escape.linefeed.timl"
+        },
+        {
+          "match": "\\\\[fF]",
+          "name": "constant.character.escape.formfeed.timl"
+        },
+        {
+          "match": "\\\\[tT]",
+          "name": "constant.character.escape.tabulator.timl"
+        },
+        {
+          "match": "\\\\[vV]",
+          "name": "constant.character.escape.verticaltabulator.timl"
+        },
+        {
+          "match": "\\\\\\\"",
+          "name": "constant.character.escape.double-quote.timl"
+        },
+        {
+          "match": "\\\\'",
+          "name": "constant.character.escape.single-quote.timl"
+        },
+        {
+          "match": "\\\\[0-9]+",
+          "name": "constant.character.escape.chardecimalvalue.timl"
+        },
+        {
+          "match": "\\\\[aA]",
+          "name": "constant.character.escape.alert.timl"
+        },
+        {
+          "match": "\\\\[bB]",
+          "name": "constant.character.escape.backspace.timl"
+        },
+        {
+          "match": "\\\\[eE]",
+          "name": "constant.character.escape.escape.timl"
+        },
+        {
+          "match": "\\\\[xX]\\h\\h",
+          "name": "constant.character.escape.hex.timl"
+        },
+        {
+          "match": "\\\\\\\\",
+          "name": "constant.character.escape.backslash.timl"
+        }
+      ]
+    },
+    "template_substitution_element": {
+      "begin": "\\$\\{",
+      "end": "}",
+      "beginCaptures": {
+        "0": {
+          "name": "meta.template.expression.begin.timl"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "meta.template.expression.end.timl"
+        }
+      },
+      "patterns": [
+        {
+          "include": "source.timl"
+        }
+      ]
+    },
+    "single_quote_string": {
+      "begin": "'",
+      "end": "'",
+      "beginCaptures": {
+        "0": {
+          "name": "string.quoted.single.begin"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "string.quoted.single.end"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#char_escapes"
+        }
+      ],
+      "name": "string.quoted.single"
+    },
+    "double_quote_string": {
+      "begin": "\"",
+      "end": "\"",
+      "beginCaptures": {
+        "0": {
+          "name": "string.quoted.double.begin"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "string.quoted.double.end"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#char_escapes"
+        }
+      ],
+      "name": "string.quoted.double"
+    },
+    "triple_quote_string": {
+      "begin": "\"\"\"",
+      "end": "\"\"\"",
+      "beginCaptures": {
+        "0": {
+          "name": "string.quoted.triple.begin"
+        }
+      },
+      "endCaptures": {
+        "0": {
+          "name": "string.quoted.triple.end"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#char_escapes"
+        }
+      ],
+      "name": "string.quoted.triple"
+    },
+    "backtick_template_string": {
+      "begin": "`",
+      "end": "`",
+      "patterns": [
+        {
+          "include": "#template_substitution_element"
+        },
+        {
+          "include": "#char_escapes"
+        }
+      ],
+      "name": "string.template.timl"
+    },
+    "string_literal": {
+      "patterns": [
+        {
+          "include": "#triple_quote_string"
+        },
+        {
+          "include": "#double_quote_string"
+        },
+        {
+          "include": "#single_quote_string"
+        },
+        {
+          "include": "#backtick_template_string"
+        }
+      ]
+    },
+    "integer_literal": {
+      "patterns": [
+        {
+          "match": "-?\\b(0[xX]\\h[_\\h]*)('(([iIuU](8|16|32|64))|[uU]))?",
+          "name": "constant.numeric.integer.hexadecimal.timl"
+        },
+        {
+          "match": "-?\\b(0o[0-7][_0-7]*)('(([iIuU](8|16|32|64))|[uU]))?",
+          "name": "constant.numeric.integer.octal.timl"
+        },
+        {
+          "match": "-?\\b(0(b|B)[01][_01]*)('(([iIuU](8|16|32|64))|[uU]))?",
+          "name": "constant.numeric.integer.binary.timl"
+        },
+        {
+          "match": "-?\\b(?<![^\\.]\\.)(\\d[_\\d]*)('(([iIuU](8|16|32|64))|[uU]))?",
+          "name": "constant.numeric.integer.decimal.timl"
+        }
+      ]
+    },
+    "float_literal": {
+      "patterns": [
+        {
+          "match": "-?\\b0[xX]\\h[_\\h]*'([fF](32|64|128)|[fFdD])",
+          "name": "constant.numeric.float.hexadecimal.timl"
+        },
+        {
+          "match": "-?\\b0o[0-7][_0-7]*'([fF](32|64|128)|[fFdD])",
+          "name": "constant.numeric.float.octal.timl"
+        },
+        {
+          "match": "-?\\b0(b|B)[01][_01]*'([fF](32|64|128)|[fFdD])",
+          "name": "constant.numeric.float.binary.timl"
+        },
+        {
+          "match": "-?\\b(?<![^\\.]\\.)(((\\d[_\\d]*)(\\.(\\d[_\\d]*))?'([fF](32|64|128)|[fFdD]))|((\\d[_\\d]*)(\\.(\\d[_\\d]*))?e(-)?(\\d[_\\d]*)'([fF](32|64|128)|[fFdD]))|((\\d[_\\d]*)(\\.(\\d[_\\d]*))?e(-)?(\\d[_\\d]*)(?![a-zA-Z\\.]))|((\\d[_\\d]*)(\\.(\\d[_\\d]*))))\\b",
+          "name": "constant.numeric.float.decimal.timl"
+        }
+      ]
+    },
+    "boolean_literal": {
+      "match": "\\b(true|false)\\b",
+      "name": "constant.language.timl"
+    },
+    "comment_literal": {
+      "match": "(^|\\s)//.*$",
+      "name": "comment.line.double-slash.timl"
     },
     "timl_global_and_local_variables": {
       "patterns": [
@@ -60,73 +335,47 @@
         }
       ]
     },
-    "string_quoted_single": {
-      "comment": "Single quoted string",
-      "name": "string.quoted.single.timl",
-      "begin": "'",
-      "end": "'",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.definition.string.begin.timl"
-        }
-      },
-      "endCaptures": {
-        "0": {
-          "name": "punctuation.definition.string.end.timl"
-        }
+    "variable_literal": {
+      "comment": "Every variable accessed by `$` prefix",
+      "name": "storage.type.variable",
+      "match": "\\$[a-zA-z0-9\\.]+"
+    },
+    "single_html_tag_classNames_first": {
+      "comment": "A valid html tag on a line",
+      "match": "(?<=^|\\s)([a-z0-6]+)((?:\\.[a-zA-Z0-9-]+)*)(#[a-zA-Z0-9-]+)?:?",
+      "captures": {
+        "1": { "name": "entity.name.tag.html.timl" },
+        "2": { "name": "meta.attribute.class.html.timl" },
+        "3": { "name": "meta.attribute.id.html.timl emphasis.timl" }
       }
     },
-    "string_quoted_double": {
-      "comment": "Double quoted string",
-      "name": "string.quoted.double.timl",
-      "begin": "\"",
-      "end": "\"",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.definition.string.begin.timl"
-        }
-      },
-      "endCaptures": {
-        "0": {
-          "name": "punctuation.definition.string.end.timl"
-        }
-      },"patterns": [
-        {
-          "match": "[\\s\\S]*"
-        }
+    "single_html_tag_id_first": {
+      "comment": "A valid html tag on a line",
+      "match": "(?<=^|\\s)([a-z0-6]+)(#[a-zA-Z0-9-]+)((\\.[a-zA-Z0-9-_]+)*)",
+      "captures": {
+        "1": { "name": "entity.name.tag.html.timl" },
+        "2": { "name": "meta.attribute.id.html.timl emphasis.timl" },
+        "3": { "name": "meta.attribute.class.html.timl" }
+      }
+    },
+    "cssStyles": {
+      "match": "\\s+(\\.[a-zA-Z0-9-_]+)+\\s*",
+      "name": "meta.attribute.class.html.timl"
+    },
+    "html_element": {
+      "name": "entity.name.tag.timl",
+      "patterns": [
+        { "include": "#single_html_tag_id_first" },
+        { "include": "#single_html_tag_classNames_first" },
+        { "include": "#cssStyles" }
       ]
     },
-    "string_quoted_triple": {
-      "begin": "\"\"\"",
-      "beginCaptures": {
-        "0": {
-          "name": "punctuation.definition.string.begin.timl"
-        }
-      },
-      "comment": "Raw Triple Quoted String",
-      "end": "\"\"\"",
-      "endCaptures": {
-        "0": {
-          "name": "punctuation.definition.string.end.timl"
-        }
-      },
-      "name": "string.quoted.triple.raw.timl"
-    },
     "attribute_keyValuePair": {
-      "match": "\\s*([a-zA-Z0-9-_:]+)\\s*=\\s*(.*)",
+      "match": "\\s+([a-zA-Z0-9-_:]+)\\s*=\\s*",
       "captures": {
-        "1": { "name": "entity.other.attribute-name.key.timl" },
-        "2": {
-          "name": "entity.other.attribute-name.value.timl",
-          "patterns": [
-            { "include": "#string_literal" },
-            { "include": "#timl_global_and_local_variables" },
-            { "include": "#variable_literal" }
-          ]
-        }
+        "1": { "name": "entity.other.attribute-name.key.timl" }
       }
     },
-
     "javascript_block": {
       "comment": "This highlights embedded Javascript",
       "name": "meta.embedded.block.js",
@@ -158,20 +407,7 @@
       },
       "patterns": [
         {
-          "include": "#comment_literal"
-        },
-        {
-          "include": "#keywords"
-        },
-        {
-          "include": "#timl_global_and_local_variables"
-        },
-        {
-          "include": "#all_data_types"
-        },
-        { "include": "#attribute_keyValuePair" },
-        {
-          "include": "#html_element"
+          "include": "source.timl"
         }
       ]
     },
@@ -225,102 +461,12 @@
     },
     "embedded_languages": {
       "patterns": [
+        { "include": "#json_block" },
         { "include": "#javascript_block" },
         { "include": "#css_block" },
         { "include": "#yaml_block" },
-        { "include": "#json_block" },
         { "include": "#client_block" }
       ]
-    },
-    "comment_literal": {
-      "match": "//[\\s\\S]*$",
-      "name": "comment.line.double-slash.timl"
-    },
-    "string_literal": {
-      "name": "string.quoted.double.timl",
-      "patterns": [
-        {
-          "include": "#string_quoted_single"
-        },
-        {
-          "include": "#string_quoted_double"
-        },
-        {
-          "include": "#string_quoted_triple"
-        }
-      ]
-    },
-    "integer_literal": {
-      "match": "(?<!\\S)-?\\b\\d+\\b(?!\\.\\d)",
-      "name": "constant.numeric.integer.timl"
-    },
-    "float_literal": {
-      "match": "(?<!\\S)-?\\b\\d+\\.\\d+\\b",
-      "name": "constant.numeric.float.timl"
-    },
-    "boolean_literal": {
-      "match": "\\b(true|false)\\b",
-      "name": "constant.language.boolean.timl"
-    },
-    "array_literal": {
-      "name": "meta.structure.array.timl",
-      "begin": "\\[",
-      "beginCaptures": { "0": { "name": "meta.brace.square.open.timl" } },
-      "end": "\\]",
-      "endCaptures": { "0": { "name": "meta.brace.square.close.timl" } }
-    },
-    "object_literal": {
-      "name": "meta.structure.object.timl",
-      "begin": "\\{",
-      "end": "\\}",
-      "beginCaptures": {
-        "0": { "name": "meta.structure.dictionary.beginning" }
-      },
-      "endCaptures": {
-        "0": { "name": "meta.structure.dictionary.end" }
-      }
-    },
-    "variable_literal": {
-      "comment": "Every variable accessed by `$` prefix",
-      "name": "storage.type.variable",
-      "match": "\\$[a-zA-z0-9\\.]+"
-    },
-    "all_data_types": {
-      "patterns": [
-        { "include": "#string_literal" },
-        { "include": "#integer_literal" },
-        { "include": "#float_literal" },
-        { "include": "#boolean_literal" },
-        { "include": "#array_literal" },
-        { "include": "#object_literal" },
-        { "include": "#variable_literal" }
-      ]
-    },
-    "single_html_tag_classNames_first": {
-      "comment": "A valid html tag on a line",
-      "match": "(?<=^|\\s)([a-z0-6]+)((?:\\.[a-zA-Z0-9-]+)*)(#[a-zA-Z0-9-]+)?:?",
-      "captures": {
-        "1": { "name": "entity.name.tag.html.timl" },
-        "2": { "name": "meta.attribute.class.html.timl" },
-        "3": { "name": "meta.attribute.id.html.timl" }
-      }
-    },
-    "single_html_tag_id_first": {
-      "comment": "A valid html tag on a line",
-      "match": "(?<=^|\\s)([a-z0-6]+)(#[a-zA-Z0-9-]+)((?:\\.[a-zA-Z0-9-]+)*):?",
-      "captures": {
-        "1": { "name": "entity.name.tag.html.timl" },
-        "2": { "name": "meta.attribute.class.html.timl" },
-        "3": { "name": "meta.attribute.id.html.timl" }
-      }
-    },
-    "html_element": {
-      "name": "entity.name.tag.timl",
-      "patterns": [
-        { "include": "#single_html_tag_classNames_first" },
-        { "include": "#single_html_tag_id_first" }
-      ]
     }
-  },
-  "scopeName": "source.timl"
+  }
 }

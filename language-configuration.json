@@ -16,11 +16,11 @@
     ["[", "]"],
     ["\"", "\""],
     ["'", "'"],
-    ["@js", "@end"],
-    ["@client", "@end"],
-    ["@css", "@end"],
-    ["@json", "@end"],
-    ["@yaml", "@end"]
+    ["@js", "\n\t\n@end"],
+    ["@client", "\n\t\n@end"],
+    ["@css", "\n\t\n@end"],
+    ["@json", "\n\t\n@end"],
+    ["@yaml", "\n\t\n@end"]
   ],
   // symbols that can be used to surround a selection
   "surroundingPairs": [

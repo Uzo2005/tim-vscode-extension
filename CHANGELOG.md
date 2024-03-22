@@ -1,9 +1,5 @@
 # Change Log
 
-All notable changes to the "timlextension" extension will be documented in this file.
+### Added: 
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-
-- Initial release
+- Syntax Highlighting

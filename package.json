@@ -1,11 +1,6 @@
 {
-  "name": "timlextension",
-  "displayName": "timlExtension",
-  "description": "Syntax Highlighting and Intellisense for the Tim Templating Engine",
+  "name": "timextension",
   "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.87.0"
-  },
   "categories": [
     "Programming Languages"
   ],
@@ -36,5 +31,11 @@
         }
       }
     ]
+  },
+  "description": "Syntax Highlighting for the Tim Templating Engine (intellisense coming soon!)",
+  "displayName": "Tim",
+  "icon": "./assets/logo.png",
+  "engines": {
+    "vscode": "^1.87.0"
   }
 }
