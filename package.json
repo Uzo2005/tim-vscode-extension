@@ -32,9 +32,19 @@
       }
     ]
   },
-  "description": "Syntax Highlighting for the Tim Templating Engine (intellisense coming soon!)",
+  "description": "Syntax Highlighting for the Tim Templating Engine",
   "displayName": "Tim",
   "icon": "./assets/logo.png",
+  "keywords": [
+    "tim",
+    "timl",
+    "templating engine"
+  ],
+  "publisher": "Cletus Igwe",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Uzo2005/tim-vscode-extension"
+  },
   "engines": {
     "vscode": "^1.87.0"
   }
