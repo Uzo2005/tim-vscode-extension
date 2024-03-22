@@ -4,7 +4,7 @@
 
 ## Preview
 
-![Nicer html templates](./assets/preview.png)
+![Nicer html templates](https://github.com/Uzo2005/tim-vscode-extension/blob/master/assets/preview.png?raw=true)
 
 
 ## Release Notes
