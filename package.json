@@ -8,6 +8,10 @@
     "languages": [
       {
         "id": "timl",
+        "icon": {
+          "light": "./assets/file_icon.svg",
+          "dark": "./assets/file_icon.svg"
+        },
         "aliases": [
           "Tim",
           "timl"

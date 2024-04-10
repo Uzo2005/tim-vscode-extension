@@ -11,7 +11,7 @@
 
 ## Release Notes
 - Initial release of Tim Extension
-
+- Add Tim File Icon (4-10-2024)
 ---
 
 **Made With ❤️ By Cletus!**
